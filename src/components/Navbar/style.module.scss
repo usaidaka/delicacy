@@ -1,0 +1,20 @@
+@import "../../styles/base.scss";
+
+.tab-desktop {
+  font-family: $primary-font;
+  text-transform: lowercase;
+
+  @include apply-at-md-size {
+    display: none;
+  }
+}
+
+.tab-mobile {
+  font-family: $primary-font;
+  text-transform: lowercase;
+  display: none;
+
+  @include apply-at-md-size {
+    display: block;
+  }
+}

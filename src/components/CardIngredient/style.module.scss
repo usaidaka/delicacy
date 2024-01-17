@@ -1,0 +1,18 @@
+@import "../../styles/base.scss";
+
+.ingredient-wrapper {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  .box-ingredient {
+    width: 48.027px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38.54px;
+    background: $base-background;
+    border-radius: 10px;
+    border: 3px solid white;
+    box-shadow: 0px 0px 5px black;
+  }
+}
