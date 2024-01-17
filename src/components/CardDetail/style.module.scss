@@ -17,6 +17,15 @@
 
   .desc {
     font-weight: 300;
+    height: 200px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    @include apply-at-sm-size {
+    }
+  }
+
+  .desc::-webkit-scrollbar {
+    display: none;
   }
 
   .wrapper {
