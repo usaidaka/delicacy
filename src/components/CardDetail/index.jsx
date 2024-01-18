@@ -10,7 +10,7 @@ const CardDetail = ({ data }) => {
   const [favorites, setFavorites] = useState([]);
   const [isFav, setIsFav] = useState(false);
   const { id } = useParams();
-  console.log(id);
+
   const location = useLocation();
 
   const handleFav = async () => {
