@@ -1,0 +1,24 @@
+@import "../../styles/base.scss";
+
+.container {
+  display: grid;
+  width: 100vh;
+  padding-top: 50px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  justify-content: center;
+  align-items: center;
+  @include apply-at-sm-size {
+    // grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    padding-top: 20px;
+  }
+}
+
+.top-container {
+  height: 86vh;
+}

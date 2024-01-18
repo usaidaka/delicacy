@@ -1,0 +1,28 @@
+{
+  "favorite": [
+    {
+      "id": "52927",
+      "idMeal": "52927",
+      "strMeal": "Montreal Smoked Meat",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/uttupv1511815050.jpg"
+    },
+    {
+      "id": "52878",
+      "idMeal": "52878",
+      "strMeal": "Beef and Oyster pie",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/wrssvt1511556563.jpg"
+    },
+    {
+      "id": "52874",
+      "idMeal": "52874",
+      "strMeal": "Beef and Mustard Pie",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/sytuqu1511553755.jpg"
+    },
+    {
+      "id": "52965",
+      "idMeal": "52965",
+      "strMeal": "Breakfast Potatoes",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/1550441882.jpg"
+    }
+  ]
+}

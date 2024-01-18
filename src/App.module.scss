@@ -1,0 +1,15 @@
+@import "./styles/base.scss";
+
+.main-container {
+  background-color: $base-background;
+  height: 100%;
+  padding: 20px 0px 0px 30px;
+
+  .title {
+    font-family: $title-font;
+  }
+}
+
+.container {
+  // margin: 40px 0px 0px 40px;
+}

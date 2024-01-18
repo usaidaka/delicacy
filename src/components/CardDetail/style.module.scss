@@ -17,7 +17,7 @@
 
   .desc {
     font-weight: 300;
-    height: 200px;
+    height: 156px;
     overflow-x: hidden;
     overflow-y: scroll;
     @include apply-at-sm-size {
@@ -114,11 +114,16 @@
       width: 350px;
       height: 350px;
       z-index: 1;
-      background-color: blue;
       right: 0;
       top: 0;
       margin: 50px 20px;
       position: absolute;
+
+      img {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+      }
 
       @include apply-at-sm-size {
         position: relative;

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Link,
   Outlet,
   Route,
   RouterProvider,
@@ -7,11 +8,17 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
-import { Container, CssBaseline, createTheme, Typography } from "@mui/material";
+import {
+  Container,
+  CssBaseline,
+  createTheme,
+  Typography,
+  Box,
+} from "@mui/material";
 import ListByCategory from "./pages/ListByCategory";
 import Detail from "./pages/Detail";
 import Favorite from "./pages/Favorite";
-import "./App.scss";
+import classes from "./App.module.scss";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -19,7 +26,7 @@ const App = () => {
       <>
         <Route path="/" element={<Root />}>
           <Route index element={<ListByCategory />} />
-          <Route path="/:id" element={<Detail />} />
+          <Route path="/product-detail/:id" element={<Detail />} />
           <Route path="/favorite" element={<Favorite />} />
         </Route>
       </>
@@ -48,12 +55,15 @@ function Root() {
     <>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <Container maxWidth="" className="main-container">
+
+        <Box className={classes["main-container"]}>
           <Typography variant="h4" color="initial">
-            Delicacy
+            <Link to={"/"} className={classes.title}>
+              Delicacy
+            </Link>
           </Typography>
           <Outlet />
-        </Container>
+        </Box>
       </ThemeProvider>
     </>
   );

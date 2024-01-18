@@ -1,0 +1,15 @@
+@import "../../styles/base.scss";
+
+.card-detail-container {
+  @include card-detail-container;
+  display: flex;
+  justify-content: center;
+}
+
+.card-detail-container::-webkit-scrollbar {
+  display: none;
+}
+
+.card-recipes-container {
+  @include card-recipes-container;
+}

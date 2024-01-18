@@ -13,3 +13,26 @@
   align-items: center;
   justify-content: center;
 }
+
+@mixin card-detail-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: 500.981px;
+  padding: 10px;
+  @include apply-at-sm-size {
+    overflow-y: hidden;
+    height: fit-content;
+  }
+}
+
+@mixin card-recipes-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  gap: 30px;
+}

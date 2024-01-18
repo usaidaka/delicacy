@@ -8,24 +8,26 @@ import CardRecipes from "../../components/CardRecipes";
 import { useSearchParams } from "react-router-dom";
 
 const ListByCategory = () => {
-  const [categories, setCategories] = useState([]);
-  const [valueCategory, setValueCategory] = React.useState("Beef");
+  const [datas, setDatas] = useState([]);
+  const [random, setRandom] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const selectedCategory = searchParams.get("category");
 
   useEffect(() => {
-    setSearchParams({ category: valueCategory });
-    fetchCategories();
-  }, [valueCategory]);
+    fetchProduct();
+    fetchRandom();
+  }, [selectedCategory]);
 
-  const fetchCategories = async () => {
-    try {
-      const response = await callApi("/categories.php", "GET");
-      setCategories(response.categories.slice(0, 6));
-    } catch (error) {
-      console.log(error);
-    }
+  const fetchRandom = async () => {
+    const response = await callApi("/filter.php?a=Tunisian", "GET");
+
+    const modifiedResponse = response?.meals?.map((item) => {
+      const { idMeal, strMeal, strMealThumb } = item;
+      return { idMeal, strMeal, strMealThumb };
+    });
+    const sliceResponse = modifiedResponse.slice(0, 8);
+    setRandom(sliceResponse);
   };
 
   const fetchProduct = async () => {
@@ -37,14 +39,41 @@ const ListByCategory = () => {
       const sliceResponse = responseByCategory?.meals?.slice(0, 10);
       const modifiedResponse = sliceResponse?.map(async (item) => {
         const responseByName = await callApi(
-          `/search.php?s=${item.strMeal}`,
+          `/search.php?s=${item?.strMeal}`,
           "GET"
         );
-        const { idMeal } = responseByName.meals[0];
-        return idMeal;
+        const {
+          idMeal,
+          strMeal,
+          strMealThumb,
+          strIngredient1,
+          strIngredient2,
+          strIngredient3,
+          strIngredient4,
+          strMeasure1,
+          strMeasure2,
+          strMeasure3,
+          strMeasure4,
+          strInstructions,
+        } = responseByName.meals[0];
+        return {
+          idMeal,
+          strMeal,
+          strMealThumb,
+          strIngredient1,
+          strIngredient2,
+          strIngredient3,
+          strIngredient4,
+          strMeasure1,
+          strMeasure2,
+          strMeasure3,
+          strMeasure4,
+          strInstructions,
+        };
       });
       const finalResponse = await Promise.all(modifiedResponse);
-      console.log(finalResponse, "testsss");
+
+      setDatas(finalResponse);
     } catch (error) {
       console.log(error);
     }
@@ -52,27 +81,16 @@ const ListByCategory = () => {
 
   return (
     <>
-      <Navbar
-        categories={categories}
-        setter={setValueCategory}
-        action={fetchProduct}
-      />
+      <Navbar action={fetchProduct} />
       <Box className={classes["card-detail-container"]}>
-        <CardDetail />
-        <CardDetail />
-        <CardDetail />
-        <CardDetail />
-        <CardDetail />
+        {datas.map((data) => (
+          <CardDetail key={data.idMeal} data={data} />
+        ))}
       </Box>
       <Box className={classes["card-recipes-container"]}>
-        <CardRecipes />
-        <CardRecipes />
-        <CardRecipes />
-        <CardRecipes />
-        <CardRecipes />
-        <CardRecipes />
-        <CardRecipes />
-        <CardRecipes />
+        {random?.map((item) => (
+          <CardRecipes key={item.idMeal} data={item} />
+        ))}
       </Box>
     </>
   );

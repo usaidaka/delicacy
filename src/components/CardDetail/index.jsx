@@ -1,10 +1,66 @@
 import { Box, Typography, Button } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./style.module.scss";
 
 import CardIngredient from "../CardIngredient";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { callJson } from "../../domain/json";
 
-const CardDetail = () => {
+const CardDetail = ({ data }) => {
+  const [favorites, setFavorites] = useState([]);
+  const [isFav, setIsFav] = useState(false);
+  const { id } = useParams();
+  console.log(id);
+  const location = useLocation();
+
+  const handleFav = async () => {
+    try {
+      const response = await callJson(
+        "/favorite",
+        "POST",
+        {},
+        {},
+        {
+          id: data.idMeal,
+          idMeal: data.idMeal,
+          strMeal: data.strMeal,
+          strMealThumb: data.strMealThumb,
+        }
+      );
+      fetchFav();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFav();
+  }, [id]);
+
+  const fetchFav = async () => {
+    try {
+      const response = await callJson("/favorite", "GET");
+      setFavorites(response);
+      const arrId = response.map((item) => {
+        return item.id;
+      });
+
+      const checkFav = arrId.includes(id);
+      setIsFav(checkFav);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRemoves = async (id) => {
+    try {
+      const response = await callJson(`/favorite/${id}`, "DELETE", {}, {}, {});
+      fetchFav();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Box className={classes.container}>
       <Box className={classes.wrapper}>
@@ -13,19 +69,12 @@ const CardDetail = () => {
             {/* Deskripsi */}
             <Box className={classes["text-description"]}>
               <Typography className={classes.title} variant="h5">
-                Baked salmon with fennel & tomatoes
+                <Link to={`/product-detail/${data.idMeal}`}>
+                  {data.strMeal}
+                </Link>
               </Typography>
               <Typography className={classes.desc} variant="body2">
-                "Heat oven to 180C/fan 160C/gas 4. Trim the fronds from the
-                fennel and set aside. Cut the fennel bulbs in half, then cut
-                each half into 3 wedges. Cook in boiling salted water for 10
-                mins, then drain well. Chop the fennel fronds roughly, then mix
-                with the parsley and lemon zest.\r\n\r\nSpread the drained
-                fennel over a shallow ovenproof dish, then add the tomatoes.
-                Drizzle with olive oil, then bake for 10 mins. Nestle the salmon
-                among the veg, sprinkle with lemon juice, then bake 15 mins more
-                until the fish is just cooked. Scatter over the parsley and
-                serve."
+                {data.strInstructions}
               </Typography>
             </Box>
             {/* Ingredient */}
@@ -38,24 +87,60 @@ const CardDetail = () => {
                 Ingredients
               </Typography>
               <Box className={classes["ingredient-wrapper"]}>
-                <CardIngredient />
-                <CardIngredient />
-                <CardIngredient />
-                <CardIngredient />
+                <CardIngredient
+                  ingredientName={data.strIngredient1}
+                  measure={data.strMeasure1}
+                />
+                <CardIngredient
+                  ingredientName={data.strIngredient2}
+                  measure={data.strMeasure2}
+                />
+                <CardIngredient
+                  ingredientName={data.strIngredient3}
+                  measure={data.strMeasure3}
+                />
+                <CardIngredient
+                  ingredientName={data.strIngredient4}
+                  measure={data.strMeasure4}
+                />
               </Box>
               {/* Button */}
               <Box className={classes["action-button"]}>
-                <Button variant="text" color="primary">
-                  Detail
-                </Button>
-                <Button variant="text" color="primary">
-                  Add To Favorite
-                </Button>
+                {!location.pathname.includes("/product-detail") && (
+                  <Link to={`/product-detail/${data.idMeal}`}>
+                    <Button variant="text" color="primary">
+                      Detail
+                    </Button>
+                  </Link>
+                )}
+                {isFav ? (
+                  <Button
+                    variant="text"
+                    color="primary"
+                    onClick={() => {
+                      handleRemoves(data.idMeal);
+                    }}
+                  >
+                    Removes Favorite
+                  </Button>
+                ) : (
+                  <Button
+                    variant="text"
+                    color="primary"
+                    onClick={() => {
+                      handleFav();
+                    }}
+                  >
+                    Add To Favorite
+                  </Button>
+                )}
               </Box>
             </Box>
           </Box>
         </Box>
-        <Box className={classes["img-container"]}></Box>
+        <Box className={classes["img-container"]}>
+          <img src={data.strMealThumb} alt="" />
+        </Box>
       </Box>
     </Box>
   );
